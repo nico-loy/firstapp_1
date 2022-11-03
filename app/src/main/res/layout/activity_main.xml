@@ -34,6 +34,13 @@
             android:layout_weight="1"
             android:text="Views" />
 
+        <Button
+            android:id="@+id/open_lessons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Lessons" />
+
         <Space
             android:layout_width="10dp"
             android:layout_height="wrap_content"

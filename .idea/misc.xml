@@ -3,7 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/loynico21/Downloads/LoggingViewsAndActivity/LoggingViewsAndActivity/app/src/main/res/layout/activity_lesson_list.xml" value="0.25" />
         <entry key="..\:/Users/loynico21/Downloads/LoggingViewsAndActivity/LoggingViewsAndActivity/app/src/main/res/layout/activity_main.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/loynico21/Downloads/LoggingViewsAndActivity/LoggingViewsAndActivity/app/src/main/res/layout/item_lesson.xml" value="0.1403985507246377" />
       </map>
     </option>
   </component>
