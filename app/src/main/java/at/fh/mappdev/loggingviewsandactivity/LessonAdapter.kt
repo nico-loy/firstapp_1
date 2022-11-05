@@ -5,9 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import java.nio.file.Files.size
 
-class LessonAdapter: RecyclerView.Adapter<LessonViewHolder>() {
+class LessonAdapter(val clickListener: (lesson: Lesson) -> Unit) : RecyclerView.Adapter<LessonViewHolder>() {
 
     private var lessonList = listOf<Lesson>()
 
@@ -36,10 +35,14 @@ class LessonAdapter: RecyclerView.Adapter<LessonViewHolder>() {
     }
 }
 
-class LessonViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+class LessonViewHolder(val clickListener: (lesson: Lesson) -> Unit, itemView: View): RecyclerView.ViewHolder(itemView) {
     fun bindItem(lesson: Lesson) {
         itemView.findViewById<TextView>(R.id.item_lesson_name).text = lesson.name
         itemView.findViewById<TextView>(R.id.item_lesson_date).text = lesson.date
+
+        itemView.setOnClickListener {
+            clickListener(lesson)
+        }
 
     }
 }
