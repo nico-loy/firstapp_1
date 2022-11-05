@@ -10,6 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LoggingViewsAndActivity">
         <activity
+            android:name=".LessonRatingActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".LessonListActivity"
             android:exported="false" />
         <activity android:name=".RatingActivity" />
