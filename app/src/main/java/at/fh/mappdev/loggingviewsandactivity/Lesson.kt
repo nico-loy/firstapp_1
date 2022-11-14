@@ -5,6 +5,14 @@ class Lesson(
     val type: LessonType, val lecturers: List<Lecturer>, val ratings: MutableList<LessonRating>
 ) {
     fun ratingAverage(): Double {
-        return 0.0
+
+        var ratingsList = mutableListOf<Double>()
+
+
+        ratings.forEach() {
+            ratingsList.add(it.ratingValue)
+        }
+
+        return ratingsList.sum() / ratingsList.size
     }
 }

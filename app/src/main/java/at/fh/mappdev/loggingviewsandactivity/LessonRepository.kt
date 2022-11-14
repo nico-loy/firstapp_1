@@ -1,5 +1,14 @@
 package at.fh.mappdev.loggingviewsandactivity
 
+import android.util.Log
+import com.squareup.moshi.Moshi
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.http.*
+
 object LessonRepository {
     private val lessons: List<Lesson>
 
@@ -90,16 +99,87 @@ object LessonRepository {
         )
     }
 
-    fun lessonsList(): List<Lesson> {
-        return lessons
+    fun lessonsList(success: (lessonList: List<Lesson>) -> Unit, error: (errorMessage: String) -> Unit) {
+        LessonApi.retrofitService.lessons().enqueue(object: Callback<List<Lesson>> {
+            override fun onFailure(call: Call<List<Lesson>>, t: Throwable) {
+                error("The call failed")
+            }
+
+            override fun onResponse(call: Call<List<Lesson>>, response: Response<List<Lesson>>) {
+                val responseBody = response.body()
+                if (response.isSuccessful && responseBody != null) {
+                    success(responseBody)
+                } else {
+                    error("Something went wrong")
+                }
+            }
+
+        })
     }
 
-    fun lessonById(id: String): Lesson? {
-        return lessons.find { it.id == id }
-    }
+    fun lessonById(id: String, success: (lesson: Lesson) -> Unit, error: (errorMessage: String) -> Unit) {
+        LessonApi.retrofitService.lessonById(id).enqueue(object: Callback<Lesson> {
+            override fun onFailure(call: Call<Lesson>, t: Throwable) {
+                error("The call failed")
+            }
 
+            override fun onResponse(call: Call<Lesson>, response: Response<Lesson>) {
+                val responseBody = response.body()
+                if (response.isSuccessful && responseBody != null) {
+                    success(responseBody)
+                } else {
+                    error("Something went wrong")
+                }
+            }
+        })
+    }
     fun rateLesson(id: String, rating: LessonRating) {
-        // TODO ADD Rating to lesson
+        //TODO ADD Rating to lesson
+        LessonApi.retrofitService.rateLesson(id, rating).enqueue(object: Callback<Unit> {
+            override fun onFailure(call: Call<Unit>, t: Throwable) {
+                error("The call failed")
+            }
 
+            override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
+                //add rating to lesson
+                val responseBody = response.body()
+                Log.v("LessonRepository", "Is it added?")
+                if (response.isSuccessful && responseBody != null) {
+
+                    Log.v("LessonRepository", "Woooow wir sind im IF!")
+                    val lesson = lessons.find { it.id == id }
+                    lesson?.ratings?.add(rating)
+                } else {
+                    error("Something went wrong")
+                }
+            }
+        })
+    }
+
+    object LessonApi {
+        const val accessToken = "1dacb8d0-5ea6-48f3-9b88-c08238664c23"
+        val retrofit: Retrofit
+        val retrofitService: LessonApiService
+        init {
+            val moshi = Moshi.Builder().build()
+            retrofit = Retrofit.Builder()
+                .addConverterFactory(MoshiConverterFactory.create(moshi))
+                .baseUrl("https://lessons.bloder.xyz")
+                .build()
+            retrofitService = retrofit.create(LessonApiService::class.java) }
+    }
+    interface LessonApiService {
+        @GET("/lessons")
+        @Headers("X-API-KEY: ${LessonApi.accessToken}")
+        fun lessons(): Call<List<Lesson>>
+
+        @POST("/lessons/{id}/rate")
+        @Headers("X-API-KEY: ${LessonApi.accessToken}")
+        fun rateLesson(@Path("id") lessonId: String, @Body rating: LessonRating): Call<Unit>
+
+        @GET("/lessons/{id}")
+        @Headers("X-API-KEY: ${LessonApi.accessToken}")
+        fun lessonById(@Path("id") lessonId: String): Call<Lesson>
     }
 }
+

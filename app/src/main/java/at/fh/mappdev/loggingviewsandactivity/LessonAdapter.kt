@@ -3,8 +3,10 @@ package at.fh.mappdev.loggingviewsandactivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import org.w3c.dom.Text
 
 class LessonAdapter(val clickListener: (lesson: Lesson) -> Unit) : RecyclerView.Adapter<LessonViewHolder>() {
 
@@ -43,6 +45,12 @@ class LessonViewHolder(itemView: View, val clickListener: (lesson: Lesson) -> Un
         itemView.setOnClickListener {
             clickListener(lesson)
         }
+
+        itemView.findViewById<TextView>(R.id.item_lesson_topic).text = lesson.topic
+        itemView.findViewById<TextView>(R.id.item_lesson_lecturers).text = lesson.lecturers.joinToString {it.name}
+        itemView.findViewById<RatingBar>(R.id.item_lesson_avg_rating_bar).rating = lesson.ratingAverage().toFloat()
+        itemView.findViewById<TextView>(R.id.item_lesson_avg_rating_value).text = if (lesson.ratingAverage().isNaN()) "No Rating" else lesson.ratingAverage().toString()
+        itemView.findViewById<TextView>(R.id.item_lesson_rating_count).text = "#Ratings: " + lesson.ratings.count().toString()
 
     }
 }
