@@ -7,15 +7,16 @@ class SleepyAsyncTask(): AsyncTask<Unit, Unit, Unit>() {
 
     override fun onPreExecute() {
         super.onPreExecute()
-        Log.e("SleepingAsyncTask", "Going to sleep")
+        Log.e("SleepingAsyncTask" + Thread.currentThread().name.toString(), "Going to sleep")
     }
 
     override fun doInBackground(vararg params: Unit?) {
         Thread.sleep(5000)
+        Log.e("SleepingAsyncTask" + Thread.currentThread().name.toString(), "Sleeping")
     }
 
     override fun onPostExecute(result: Unit?) {
         super.onPostExecute(result)
-        Log.e("SleepingAsyncTask", "Done sleeping")
+        Log.e("SleepingAsyncTask" + Thread.currentThread().name.toString(), "Done sleeping")
     }
 }
