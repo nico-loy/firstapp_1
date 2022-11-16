@@ -118,7 +118,7 @@ object LessonRepository {
     }
 
     fun lessonById(id: String, success: (lesson: Lesson) -> Unit, error: (errorMessage: String) -> Unit) {
-        LessonApi.retrofitService.lessonById(id).enqueue(object: Callback<Lesson> {
+        LessonApi.retrofitService.getLessonById(id).enqueue(object: Callback<Lesson> {
             override fun onFailure(call: Call<Lesson>, t: Throwable) {
                 error("The call failed")
             }
@@ -156,30 +156,6 @@ object LessonRepository {
         })
     }
 
-    object LessonApi {
-        const val accessToken = "1dacb8d0-5ea6-48f3-9b88-c08238664c23"
-        val retrofit: Retrofit
-        val retrofitService: LessonApiService
-        init {
-            val moshi = Moshi.Builder().build()
-            retrofit = Retrofit.Builder()
-                .addConverterFactory(MoshiConverterFactory.create(moshi))
-                .baseUrl("https://lessons.bloder.xyz")
-                .build()
-            retrofitService = retrofit.create(LessonApiService::class.java) }
-    }
-    interface LessonApiService {
-        @GET("/lessons")
-        @Headers("X-API-KEY: ${LessonApi.accessToken}")
-        fun lessons(): Call<List<Lesson>>
 
-        @POST("/lessons/{id}/rate")
-        @Headers("X-API-KEY: ${LessonApi.accessToken}")
-        fun rateLesson(@Path("id") lessonId: String, @Body rating: LessonRating): Call<Unit>
-
-        @GET("/lessons/{id}")
-        @Headers("X-API-KEY: ${LessonApi.accessToken}")
-        fun lessonById(@Path("id") lessonId: String): Call<Lesson>
-    }
 }
 
