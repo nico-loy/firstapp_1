@@ -88,7 +88,8 @@ class LessonListActivity : AppCompatActivity() {
                         "name": "Peter Salhofer"
                     }
                 ],
-                "ratings": []
+                "ratings": [],
+                "imageUrl": ""
             }
         """)
         Log.v("JSON", json.toString())

@@ -3,9 +3,11 @@ package at.fh.mappdev.loggingviewsandactivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import org.w3c.dom.Text
 
 class LessonAdapter(val clickListener: (lesson: Lesson) -> Unit) : RecyclerView.Adapter<LessonViewHolder>() {
@@ -50,7 +52,13 @@ class LessonViewHolder(itemView: View, val clickListener: (lesson: Lesson) -> Un
         itemView.findViewById<TextView>(R.id.item_lesson_lecturers).text = lesson.lecturers.joinToString {it.name}
         itemView.findViewById<RatingBar>(R.id.item_lesson_avg_rating_bar).rating = lesson.ratingAverage().toFloat()
         itemView.findViewById<TextView>(R.id.item_lesson_avg_rating_value).text = if (lesson.ratingAverage().isNaN()) "No Rating" else lesson.ratingAverage().toString()
-        itemView.findViewById<TextView>(R.id.item_lesson_rating_count).text = "#Ratings: " + lesson.ratings.count().toString()
+        itemView.findViewById<TextView>(R.id.item_lesson_rating_count).text = "Ratings: " + lesson.ratings.count().toString()
 
+        val imageView = itemView.findViewById<ImageView>(R.id.imageView)
+
+        Glide
+            .with(itemView)
+            .load(lesson.imageUrl)
+            .into(imageView)
     }
 }
