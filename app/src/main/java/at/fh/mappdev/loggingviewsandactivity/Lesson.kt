@@ -1,6 +1,9 @@
 package at.fh.mappdev.loggingviewsandactivity
 
 import com.squareup.moshi.JsonClass
+import java.math.RoundingMode
+import java.text.DecimalFormat
+
 @JsonClass(generateAdapter = true)
 
 class Lesson(
@@ -17,6 +20,11 @@ class Lesson(
             ratingsList.add(it.ratingValue)
         }
 
-        return ratingsList.sum() / ratingsList.size
+        //for rounding  rating number
+
+        val df = DecimalFormat("#.###") //# is number of decimal places
+        df.roundingMode = RoundingMode.DOWN
+
+        return df.format(ratingsList.sum() / ratingsList.size).toDouble()
     }
 }
