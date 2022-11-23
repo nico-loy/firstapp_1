@@ -5,8 +5,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.*
+import com.bumptech.glide.Glide
 
 class LessonRatingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,8 +20,15 @@ class LessonRatingActivity : AppCompatActivity() {
             LessonRepository.lessonById(it,
                 success = {
                     // handle success
-                    findViewById<TextView>(R.id.lesson_rating_header).text =
-                        "Lesson: " + it.name ?: "No lesson found"
+                    findViewById<TextView>(R.id.lesson_rating_header).text = it.name ?: "No lesson found"
+                    findViewById<TextView>(R.id.lesson_avg_rating_value).text = String.format("%.2f", it.ratingAverage())
+                    findViewById<RatingBar>(R.id.lesson_rating_bar_fetched).rating = it.ratingAverage().toFloat() ?: 0.0f
+                    findViewById<TextView>(R.id.textview_feedback).text = it.feedback() ?: "No feedback found"
+                    val imageView = findViewById<ImageView>(R.id.lesson_rating_img_view)
+                    Glide
+                        .with(this)
+                        .load(it.imageUrl)
+                        .into(imageView)
                     listId = it.id
                 },
                 error = {

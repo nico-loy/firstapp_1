@@ -27,4 +27,10 @@ class Lesson(
 
         return df.format(ratingsList.sum() / ratingsList.size).toDouble()
     }
+
+    fun feedback(): String {
+        //show the first rating that is not blank
+        return ratings.firstOrNull { it.feedback.isNotBlank() }?.feedback ?: ""
+        //return ratings.map { it.feedback }.filter { it.isNotEmpty() }.joinToString()
+    }
 }
