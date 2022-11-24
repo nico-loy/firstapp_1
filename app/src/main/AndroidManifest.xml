@@ -22,6 +22,7 @@
             android:name=".LessonListActivity"
             android:parentActivityName=".MainActivity" />
         <activity android:name=".RatingActivity" />
+        <activity android:name=".SettingsActivity" />
         <activity android:name=".ViewsActivity" />
         <activity
             android:name=".MainActivity"
