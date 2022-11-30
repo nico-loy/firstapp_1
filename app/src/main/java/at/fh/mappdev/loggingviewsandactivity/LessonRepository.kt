@@ -1,5 +1,6 @@
 package at.fh.mappdev.loggingviewsandactivity
 
+import android.content.Context
 import android.util.Log
 import com.squareup.moshi.Moshi
 import retrofit2.Call
@@ -144,6 +145,7 @@ object LessonRepository {
     }
     fun rateLesson(id: String, rating: LessonRating) {
         //TODO ADD Rating to lesson
+
         LessonApi.retrofitService.rateLesson(id, rating).enqueue(object: Callback<Unit> {
             override fun onFailure(call: Call<Unit>, t: Throwable) {
                 error("The call failed")
@@ -163,6 +165,19 @@ object LessonRepository {
                 }
             }
         })
+    }
+
+    fun addLessonNote(context: Context, lessonNote: LessonNote) {
+        val applicationContext = context.applicationContext
+        val db = LessonNoteDatabase.getDatabase(applicationContext)
+        db.lessonNoteDao.insert(lessonNote)
+
+    }
+
+    fun findLessonNoteById(context: Context, lessonId: String): LessonNote {
+        val applicationContext = context.applicationContext
+        val db = LessonNoteDatabase.getDatabase(applicationContext)
+        return db.lessonNoteDao.findNoteById(lessonId)
     }
 
 

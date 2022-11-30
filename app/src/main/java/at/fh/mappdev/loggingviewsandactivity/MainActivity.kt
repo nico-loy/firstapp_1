@@ -4,7 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 
 class MainActivity : AppCompatActivity() {
 
@@ -61,6 +63,14 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         Log.w("MyActivity", "onResume")
+
+        findViewById<TextView>(R.id.username_label).text = "Welcome back \n \n" + getSharedPreferences("at.fh.mappdev.loggingviewsandactivity", MODE_PRIVATE).getString(SettingsActivity.USERNAME,"") + "\n \nlet's get started!"
+
+        if (getSharedPreferences("at.fh.mappdev.loggingviewsandactivity", MODE_PRIVATE).getBoolean(SettingsActivity.DARKMODE, false)) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
     }
 
     override fun onPause() {

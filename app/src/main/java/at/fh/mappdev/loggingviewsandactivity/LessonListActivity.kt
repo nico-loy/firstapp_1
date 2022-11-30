@@ -14,6 +14,7 @@ class LessonListActivity : AppCompatActivity() {
 
     companion object {
         val EXTRA_LESSON_ID = "LESSON_ID_EXTRA"
+        val EXTRA_LESSON_NAME = "LESSON_NAME_EXTRA"
         val ADD_OR_EDIT_RATING_REQUEST = 1
     }
 
