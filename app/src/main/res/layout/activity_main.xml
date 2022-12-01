@@ -41,10 +41,16 @@
         android:layout_weight="1"
         android:text="Share" />
 
+    <Button
+        android:id="@+id/open_viewmodel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ViewModel" />
+
     <androidx.constraintlayout.helper.widget.Flow
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="open_rating,open_views,open_lessons,share_main,open_settings"
+        app:constraint_referenced_ids="open_rating,open_views,open_lessons,share_main,open_viewmodel,open_settings"
         app:flow_horizontalGap="20dp"
         app:flow_maxElementsWrap="3"
         app:flow_verticalGap="10dp"

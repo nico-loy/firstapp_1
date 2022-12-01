@@ -2,6 +2,7 @@ package at.fh.mappdev.loggingviewsandactivity
 
 import android.content.Context
 import android.util.Log
+import androidx.lifecycle.LiveData
 import com.squareup.moshi.Moshi
 import retrofit2.Call
 import retrofit2.Callback
@@ -178,6 +179,12 @@ object LessonRepository {
         val applicationContext = context.applicationContext
         val db = LessonNoteDatabase.getDatabase(applicationContext)
         return db.lessonNoteDao.findNoteById(lessonId)
+    }
+
+    fun findLessonNoteByIdLiveData(context: Context, lessonId: String): LiveData<LessonNote?> {
+        val applicationContext = context.applicationContext
+        val db = LessonNoteDatabase.getDatabase(applicationContext)
+        return db.lessonNoteDao.selectWithLiveData(lessonId)
     }
 
 
