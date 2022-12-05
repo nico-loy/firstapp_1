@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.moshi.Moshi
@@ -24,20 +25,23 @@ class LessonListActivity : AppCompatActivity() {
         startActivityForResult(intent, ADD_OR_EDIT_RATING_REQUEST)
     }
 
+   private val viewModel: LessonListViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lesson_list)
 
-        LessonRepository.lessonsList(
-            success = {
-                // handle success
-                lessonAdapter.updateList(it)
-            },
-            error = {
-                // handle error
-                Toast.makeText(this, "Error loading lessons", Toast.LENGTH_LONG).show()
+        viewModel.lessons.observe(this) { when (it) {
+            is NetworkResult.NetworkSuccess -> {
+                lessonAdapter.updateList(it.value)
             }
-        )
+            is NetworkResult.NetworkError -> {
+                Toast.makeText(this, it.errorMessage, Toast.LENGTH_SHORT).show()
+                finish() }
+            is NetworkResult.NetworkLoading -> {
+                Toast.makeText(this, "Loading", Toast.LENGTH_SHORT).show() }
+        } }
+        viewModel.refresh()
 
         val recyclerView = findViewById<RecyclerView>(R.id.lesson_recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(this)
