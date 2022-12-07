@@ -25,7 +25,13 @@ class Lesson(
         val df = DecimalFormat("#.###") //# is number of decimal places
         df.roundingMode = RoundingMode.DOWN
 
-        return df.format(ratingsList.sum() / ratingsList.size).toDouble()
+        val result = df.format(ratingsList.sum() / ratingsList.size).toDouble()
+        if (result.isNaN()){
+            return 0.0
+            }
+        else{
+            return result
+        }
     }
 
     fun feedback(): String {
